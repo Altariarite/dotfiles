@@ -32,6 +32,7 @@ values."
    dotspacemacs-configuration-layers '(
      (syntax-checking :variables syntax-checking-enable-by-default nil)
      auto-completion
+     clojure
      emacs-lisp
      git
      haskell
@@ -42,7 +43,7 @@ values."
      markdown
      neotree
      nginx
-     ;ocaml
+     ocaml
      org
      purescript
      python
@@ -149,9 +150,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(sanityinc-tomorrow-night
-                         spacemacs-dark
-                         solarized-light)
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark)
 
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -333,6 +333,23 @@ values."
 ;  (call-interactively 'evil-delete)
 ;  (save-excursion
 ;    (insert (make-string 1 char))))
+(defun altaria/eval-and-refresh ()
+  "eval functino in cider and also refresh images"
+  (interactive)
+  (call-interactively 'cider-eval-defun-at-point)
+  (sit-for 0.1)
+  (call-interactively 'altaria/refresh-iimages))
+
+(defun altaria/refresh-iimages ()
+  "Only way I've found to refresh iimages (without also recentering)"
+  (interactive)
+  (clear-image-cache nil)
+  (iimage-mode nil)
+  (iimage-mode t)
+  (message "Refreshed images")
+  )
+
+(spacemacs/set-leader-keys-for-major-mode 'clojure-mode "e\'" 'altaria/eval-and-refresh)
 
 (defun ian/fix-evil-stuff ()
   ;; there's probably some evil-define macro thing that I could do that

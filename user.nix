@@ -1,9 +1,11 @@
 with import <nixpkgs> {}; [
+  asdf
   cabal-install
   cacert
   curl
   delta
   emacsMacport
+  fish
   fzf
   git
   git-revise
